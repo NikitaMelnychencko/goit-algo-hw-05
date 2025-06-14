@@ -21,16 +21,20 @@ class NotebookServices:
       return False
 
   @input_error
+  def add_contact_by_exception(self, args):
+    def foo():
+      answer = input("Create new contact? (y/n)")
+      if answer.lower() == "y":
+        return print(self.add_contact(args))
+    return foo
+
+  @input_error
   def change_contact(self, args):
     if len(args) != 2:
       raise ValueError("Please provide name and phone number")
     name, phone = args
     if not self.check_contact(name):
-        #TODO: how I can raise Warning here? (mentor help me please)
-        log_warning(f"Contact {name} not found.")
-        answer = input("Create new contact? (y/n)")
-        if answer.lower() == "y":
-          return self.add_contact(args)
+        raise Warning({"massage": f"Contact {name} not found.", "callback": self.add_contact_by_exception(args)})
     else:
       self.contacts[name] = phone
       return f"Contact {name} changed."
@@ -38,7 +42,7 @@ class NotebookServices:
   @input_error
   def get_contact(self, name):
     if not self.check_contact(name):
-      raise Warning(f"Contact {name} not found.")
+      raise Warning({"massage":f"Contact {name} not found."})
 
     return f"Contact {name}: {self.contacts[name]}"
 
