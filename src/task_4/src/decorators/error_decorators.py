@@ -10,13 +10,11 @@ def input_error(func):
             log_error(f"{e}")
         except Warning as e:
             error_data = e.args[0]
-            if isinstance(error_data, dict):
-                massage = error_data.get('massage')
-                callback = error_data.get('callback')
-                log_warning(massage)
-                if callback:
-                    callback()
-            else:
-                log_warning(error_data)
+            massage = error_data.get('massage')
+            callback = error_data.get('callback')
+            log_warning(massage)
+            if callback:
+                callback()
+
 
     return inner

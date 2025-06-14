@@ -1,6 +1,6 @@
 from services.NotebookServices import NotebookServices
 from services.DataServices import DataServices
-from decorators.error_decorators import input_error
+from helper.color_loger import log_error
 
 def parse_input(user_input):
     cmd, *args = user_input.split()
@@ -29,7 +29,7 @@ commands = """
   ---------
 """
 
-@input_error
+
 def main():
     data = DataServices()
     contacts = NotebookServices(data.get_init_data())
@@ -67,7 +67,7 @@ def main():
                 print("Good bye!")
                 break
             case _:
-                raise ValueError("Invalid command.")
+                log_error("Invalid command.")
 
 if __name__ == "__main__":
     main()
